@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kalkulator HPP - Harga Pokok Penjualan (Trial Mode)</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+    <style>
+      /* --- Variabel Warna Original Tetap Dipertahankan --- */
+      :root {
+        --primary-color: #6a93cb;
+        --secondary-color: #b8c6db;
+        --background-start: #f6f8fa;
+        --background-end: #dce3f6;
+        --text-color: #333;
+        --card-bg: #ffffff;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --border-radius: 8px;
+        --error-color: #e74c3c;
+        --success-color: #2ecc71;
+      }
+
+      /* --- Global Reset & Typography --- */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text-color);
+        background: linear-gradient(
+          135deg,
+          var(--background-start) 0%,
+          var(--background-end) 100%
+        );
+        min-height: 100vh;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 15px;
+      }
+      h2,
+      h3 {
+        margin-bottom: 15px;
+        color: var(--primary-color);
+      }
+      h2 {
+        font-size: 1.8em;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--secondary-color);
+        margin-top: 20px;
+      }
+
+      /* --- Kartu (Card) Original --- */
+      .card {
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        margin-bottom: 20px;
+        transition: transform 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-2px);
+      }
+
+      /* --- Modal Pop-up Styling --- */
+      #trialModal {
+        transition:
+          opacity 0.4s ease,
+          visibility 0.4s;
+      }
+      .modal-content {
+        transform: scale(0.9);
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .show-modal .modal-content {
+        transform: scale(1);
+      }
+
+      /* --- Existing Form Styles (Keeping your CSS logic) --- */
+      .form-card input[type="text"],
+      .form-card input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .total-summary {
+        font-weight: bold;
+        color: var(--primary-color);
+        margin-top: 10px;
+        border-top: 1px dashed #ddd;
+        padding-top: 10px;
+      }
+      .hidden {
+        display: none;
+      }
+
+      /* --- Result Section Styles --- */
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+      }
+      .summary-item {
+        background-color: #f7f9fc;
+        padding: 15px;
+        border-radius: var(--border-radius);
+        text-align: center;
+        border: 1px solid var(--secondary-color);
+      }
+      .summary-item span {
+        display: block;
+        font-size: 1.8em;
+        font-weight: bold;
+        color: var(--primary-color);
+      }
+      .main-result {
+        background-color: var(--primary-color);
+        color: white;
+      }
+      .main-result span {
+        color: #f1c40f;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="trialModal"
+      class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden opacity-0 invisible"
+    >
+      <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
+      <div
+        class="modal-content bg-white max-w-md w-full rounded-2xl p-8 relative z-10 shadow-2xl border border-blue-100 text-center"
+      >
+        <div class="text-5xl mb-4">📢</div>
+        <h3 class="text-2xl font-bold text-slate-800 mb-2">HPPyCalc Trial</h3>
+        <p class="text-slate-600 mb-6">
+          Halaman ini adalah <strong>Mode Uji Coba</strong>. Data yang Anda
+          masukkan hanya bersifat sementara dan tidak akan tersimpan di cloud.
+        </p>
+        <div class="flex flex-col gap-3">
+          <a
+            href="Login.html"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg"
+          >
+            Daftar & Berlangganan 🚀
+          </a>
+          <button
+            onclick="closeTrialModal()"
+            class="text-slate-400 text-sm font-medium hover:text-slate-600 transition"
+          >
+            Lanjut ke Versi Gratis
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <nav class="bg-blue-600 shadow-xl sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <div class="flex items-center gap-2">
+            <img
+              src="logoCashup.png"
+              class="w-12 h-12 rounded-full border-2 border-white/50"
+              alt="Logo"
+            />
+            <h1 class="text-white text-3xl font-extrabold tracking-tight">
+              HPPyCalc
+            </h1>
+          </div>
+          <div class="flex items-center gap-4">
+            <span
+              class="bg-white/20 text-white text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider"
+              >Mode Gratis</span
+            >
+            <a
+              href="https://jaxzyv.github.io/HppyCalc.git.io/Login.html"
+              class="text-white text-lg font-bold underline decoration-2 underline-offset-4 hover:text-blue-200 transition"
+            >
+              Berlangganan
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+      <div
+        class="bg-amber-100 border-l-4 border-amber-500 p-4 mb-6 rounded-r-lg"
+      >
+        <p class="text-amber-800 text-sm">
+          <strong>Info:</strong> Fitur ekspor PDF dan penyimpanan riwayat cloud
+          hanya tersedia di versi berlangganan.
+        </p>
+      </div>
+
+      <section id="kalkulator" class="active-section">
+        <h2>Kalkulator Harga Pokok Penjualan (HPP)</h2>
+
+        <div class="card instruksi-card">
+          <h3
+            class="cursor-pointer"
+            onclick="this.parentElement.classList.toggle('expanded')"
+          >
+            Cara Menggunakan 💡
+            <span class="text-sm font-normal">(Klik untuk detail)</span>
+          </h3>
+          <div
+            class="instruksi-content overflow-hidden transition-all duration-300"
+          >
+            <ol class="list-decimal ml-5 mt-2 space-y-1">
+              <li>Isi Nama Produk untuk identifikasi.</li>
+              <li>Masukkan biaya Bahan Baku dan Biaya Lain-Lain.</li>
+              <li>Isi Total Biaya Tenaga Kerja dan Jumlah Unit Produksi.</li>
+              <li>Klik 'Hitung HPP' untuk melihat hasilnya.</li>
+            </ol>
+          </div>
+        </div>
+
+        <form id="hpp-form" class="card form-card">
+          <h3>Detail Produk & Unit</h3>
+          <label for="productName">Nama Produk:</label>
+          <input
+            type="text"
+            id="productName"
+            placeholder="Contoh: Kue Cokelat (500g)"
+            required
+          />
+
+          <label for="jumlahUnit">Jumlah Unit Produksi:</label>
+          <input
+            type="number"
+            id="jumlahUnit"
+            min="1"
+            placeholder="Cth: 100"
+            required
+          />
+
+          <h3>1. Biaya Bahan Baku (BB)</h3>
+          <div id="bahanBakuContainer" class="dynamic-input-container"></div>
+          <p class="total-summary">
+            Total Biaya Bahan Baku: <span id="totalBahanBakuDisplay">Rp 0</span>
+          </p>
+
+          <h3>2. Biaya Tenaga Kerja Langsung (BTKL)</h3>
+          <label for="biayaTenagaKerja">Total Biaya Tenaga Kerja:</label>
+          <input
+            type="number"
+            id="biayaTenagaKerja"
+            min="0"
+            placeholder="Rp Total Gaji & Upah"
+            required
+          />
+          <p class="total-summary">
+            Total Biaya Tenaga Kerja:
+            <span id="totalTenagaKerjaDisplay">Rp 0</span>
+          </p>
+
+          <h3>3. Biaya Overhead Pabrik (BOP)</h3>
+          <div
+            id="biayaLainLainContainer"
+            class="dynamic-input-container"
+          ></div>
+          <p class="total-summary">
+            Total Biaya Lain-Lain: <span id="totalLainLainDisplay">Rp 0</span>
+          </p>
+
+          <div class="form-actions mt-6">
+            <button
+              type="submit"
+              class="btn-hitung bg-blue-600 text-white px-6 py-2 rounded font-bold shadow hover:bg-blue-700"
+            >
+              Hitung HPP
+            </button>
+            <button
+              type="button"
+              class="btn-reset px-6 py-2 rounded font-bold bg-slate-200"
+              onclick="resetForm()"
+            >
+              Reset Form
+            </button>
+          </div>
+        </form>
+
+        <div id="hasil-perhitungan" class="card result-card hidden">
+          <h3>Hasil Perhitungan HPP</h3>
+          <div class="summary-grid">
+            <div class="summary-item">
+              Total Biaya Produksi: <span id="outputTotalBiaya">0</span>
+            </div>
+            <div class="summary-item main-result">
+              HPP per Unit: <span id="outputHPPUnit">0</span>
+            </div>
+          </div>
+
+          <div
+            class="harga-jual-section mt-6 p-4 border-2 border-dashed border-blue-200 rounded-lg"
+          >
+            <h4 class="font-bold mb-2">Hitung Harga Jual Saran</h4>
+            <div class="flex flex-wrap gap-2 items-center">
+              <label for="marginLaba">Margin Laba (%):</label>
+              <input
+                type="number"
+                id="marginLaba"
+                value="20"
+                class="border p-2 w-20 rounded"
+              />
+              <button
+                type="button"
+                class="bg-orange-500 text-white px-4 py-2 rounded font-bold"
+                onclick="hitungHargaJual()"
+              >
+                Hitung
+              </button>
+            </div>
+            <div class="harga-jual-output hidden mt-4 text-xl">
+              Harga Jual:
+              <span id="outputHargaJual" class="text-green-600">0</span>
+            </div>
+          </div>
+
+          <div class="mt-8 text-center bg-blue-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2">
+              Dapatkan fitur Grafik Analitik & Simpan Riwayat Permanen
+            </p>
+            <a
+              href="Login.html"
+              class="text-blue-700 font-extrabold hover:underline"
+              >KLIK DI SINI UNTUK BERLANGGANAN</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section id="tentang" class="mt-10 mb-20">
+        <h2 class="text-2xl font-bold text-slate-800">Tentang Aplikasi</h2>
+        <div class="card italic text-slate-500">
+          Aplikasi ini dirancang untuk simulasi perhitungan Harga Pokok
+          Penjualan (HPP) sesuai standar akuntansi biaya produksi untuk UMKM.
+        </div>
+      </section>
+    </main>
+
+    <script src="scriptCalc.js"></script>
+    <script>
+      // LOGIKA MODAL (Hanya muncul sekali per sesi)
+      window.addEventListener("DOMContentLoaded", () => {
+        const modal = document.getElementById("trialModal");
+        const hasSeenModal = sessionStorage.getItem("hasSeenHPPyModal");
+
+        if (!hasSeenModal) {
+          setTimeout(() => {
+            modal.classList.remove("hidden");
+            // Trigger animation
+            setTimeout(() => {
+              modal.classList.add("show-modal");
+              modal.classList.remove("opacity-0", "invisible");
+            }, 50);
+          }, 1000); // Muncul setelah 1 detik
+        }
+      });
+
+      function closeTrialModal() {
+        const modal = document.getElementById("trialModal");
+        modal.classList.add("opacity-0", "invisible");
+        sessionStorage.setItem("hasSeenHPPyModal", "true");
+        setTimeout(() => {
+          modal.classList.add("hidden");
+        }, 400);
+      }
+      function hitungHargaJual() {
+        // 1. Ambil teks HPP
+        const hppText = document.getElementById("outputHPPUnit").innerText;
+
+        // 2. Pembersihan yang lebih kuat:
+        // Hapus semua karakter kecuali angka.
+        // Jika di Indonesia menggunakan titik untuk ribuan (8.000),
+        // kita harus hapus titiknya dulu agar tidak terbaca sebagai desimal (8.0).
+        const hppClean = hppText.replace(/\./g, "").replace(/[^0-9]/g, "");
+        const hppUnit = parseFloat(hppClean) || 0;
+
+        // 3. Ambil nilai margin
+        const marginInput = document.getElementById("marginLaba").value;
+        const marginPersen = parseFloat(marginInput) || 0;
+
+        // Validasi Nyata
+        if (hppUnit <= 0) {
+          alert("Nilai HPP tidak valid atau masih nol. Hitung HPP dulu!");
+          return;
+        }
+
+        // 4. Rumus Mark-up Pricing (Standar Akuntansi)
+        // Harga Jual = HPP * (1 + Margin)
+        const hargaJual = hppUnit + hppUnit * (marginPersen / 100);
+
+        // 5. Tampilkan hasil dengan format Rupiah yang benar
+        const outputElemen = document.getElementById("outputHargaJual");
+        const containerHasil = document.querySelector(".harga-jual-output");
+
+        if (outputElemen) {
+          outputElemen.innerText = new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            maximumFractionDigits: 0,
+          }).format(hargaJual);
+
+          containerHasil.classList.remove("hidden");
+        }
+      }
+    </script>
+  </body>
+</html>
