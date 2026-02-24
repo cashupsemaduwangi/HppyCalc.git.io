@@ -4,19 +4,9 @@
 // Sesuaikan username (email/hp) dan password sesuai kebutuhan Anda
 const users = [
   {
-    username: "jingga",
-    password: "Ji12345",
-    redirectTo: "https://jaxzyv.github.io/HppyClac/", // Halaman yang akan dituju
-  },
-  {
-    username: "user123",
-    password: "userpass",
-    redirectTo: "https://jaxzyv.github.io/HppyClac/",
-  },
-  {
-    username: "smaduwangi", // Contoh login dengan nomor handphone
+    username: "smaduwangi",
     password: "smadupass",
-    redirectTo: "https://jaxzyv.github.io/HppyClac/",
+    redirectTo: "https://cashupsemaduwangi.github.io/HppyClac/",
   },
   // Tambahkan user lain di sini
 ];
@@ -66,3 +56,45 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+// ===========================================
+// 3. KONFIGURASI TOMBOL KEMBALI
+// ===========================================
+
+const urlTujuan = "index.html"; // Ganti dengan URL kustom Anda
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// --- LOGIK TRANSISI KELUAR ---
+const btnKembali = document.getElementById("btnKembali");
+const mainCard = document.getElementById("mainCard");
+
+btnKembali.addEventListener("click", function () {
+  // Tambahkan class animasi keluar
+  mainCard.classList.add("page-exit");
+
+  // Tunggu animasi CSS selesai (500ms sesuai durasi transition) baru pindah halaman
+  setTimeout(() => {
+    window.location.href = urlTujuan;
+  }, 500);
+});
+
+// --- SHOW/HIDE PASSWORD ---
+const toggleBtn = document.getElementById("togglePassword");
+const passwordInput = document.getElementById("password");
+const eyeOpen = document.getElementById("eyeOpen");
+const eyeClosed = document.getElementById("eyeClosed");
+
+toggleBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+  const isPassword = passwordInput.type === "password";
+  passwordInput.type = isPassword ? "text" : "password";
+  eyeOpen.style.opacity = isPassword ? "0" : "1";
+  eyeClosed.style.opacity = isPassword ? "1" : "0";
+});
+
+function handleLogin(event) {
+  event.preventDefault();
+  alert("Sistem sedang memproses...");
+  return false;
+}
