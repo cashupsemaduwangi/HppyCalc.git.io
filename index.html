@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HPPyCalc - Solusi HPP UMKM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .fade-in {
+        opacity: 0;
+        animation: fadeIn 0.8s ease-out forwards;
+      }
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+      .slide-up {
+        transform: translateY(20px);
+        opacity: 0;
+        animation: slideUp 0.6s ease-out forwards;
+      }
+      @keyframes slideUp {
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* Mobile Menu Toggle */
+      #mobile-menu {
+        display: none;
+      }
+      #mobile-menu.active {
+        display: flex;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-900 selection:bg-blue-100">
+    <header
+      class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200"
+    >
+      <nav
+        class="max-w-7xl mx-auto px-5 h-16 md:h-20 flex justify-between items-center"
+      >
+        <div class="flex items-center gap-3">
+          <img
+            src="logoCashup.png"
+            alt="HPPyCalc Logo"
+            class="w-9 h-9 md:w-11 md:h-11 rounded-xl object-cover shadow-sm"
+          />
+          <span
+            class="text-lg md:text-xl font-bold tracking-tight text-slate-800"
+            >HPPyCalc</span
+          >
+        </div>
+
+        <div class="hidden md:flex items-center gap-8">
+          <a
+            href="#Deskripsi"
+            class="text-sm font-medium text-slate-600 hover:text-blue-600 transition"
+            >Tentang</a
+          >
+          <a
+            href="Login.html"
+            class="text-sm font-medium text-slate-600 hover:text-blue-600 transition"
+            >Login</a
+          >
+          <a
+            href="HppyCalcFree.html"
+            class="bg-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-blue-700 transition shadow-md shadow-blue-100"
+            >Coba Gratis</a
+          >
+        </div>
+
+        <button
+          id="menu-btn"
+          class="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            />
+          </svg>
+        </button>
+      </nav>
+
+      <div
+        id="mobile-menu"
+        class="md:hidden flex-col bg-white border-b border-slate-200 px-5 py-6 gap-4 absolute w-full left-0 shadow-xl"
+      >
+        <a
+          href="#Deskripsi"
+          class="text-base font-medium text-slate-600 py-2 border-b border-slate-50"
+          >Tentang</a
+        >
+        <a
+          href="Login.html"
+          class="text-base font-medium text-slate-600 py-2 border-b border-slate-50"
+          >Login</a
+        >
+        <a
+          href="HppyCalcFree.html"
+          class="bg-blue-600 text-white px-5 py-3 rounded-xl text-center font-bold"
+          >Coba Gratis</a
+        >
+      </div>
+    </header>
+
+    <main>
+      <section
+        class="relative overflow-hidden pt-12 pb-16 md:pt-32 md:pb-32 px-5"
+      >
+        <div class="max-w-7xl mx-auto relative z-10 text-center">
+          <span
+            class="inline-block px-4 py-1.5 mb-6 text-[10px] md:text-xs font-bold tracking-widest text-blue-600 uppercase bg-blue-50 rounded-full slide-up"
+          >
+            Solusi Digital UMKM
+          </span>
+          <h1
+            class="text-4xl md:text-7xl font-extrabold text-slate-900 mb-6 tracking-tight fade-in"
+            style="animation-delay: 0.2s"
+          >
+            HPPyCalc
+          </h1>
+          <p
+            class="text-base md:text-xl text-slate-500 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed slide-up"
+            style="animation-delay: 0.4s"
+          >
+            "HPP Lebih Jelas, Strategi Lebih Cerdas"
+            <br class="hidden md:block" />
+            Kelola keuangan bisnis Anda dengan presisi.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row justify-center gap-4 slide-up px-4 md:px-0"
+            style="animation-delay: 0.6s"
+          >
+            <a
+              href="HppyCalcFree.html"
+              class="w-full sm:w-auto px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 text-center"
+            >
+              Mulai Hitung Gratis
+            </a>
+            <a
+              href="Login.html"
+              class="w-full sm:w-auto px-8 py-4 bg-white text-slate-700 border border-slate-200 font-bold rounded-2xl hover:bg-slate-50 transition-all text-center"
+            >
+              Masuk ke Akun
+            </a>
+          </div>
+        </div>
+        <div
+          class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-40"
+        >
+          <div
+            class="absolute top-0 left-1/4 w-48 h-48 md:w-80 md:h-80 bg-blue-400 rounded-full blur-[80px] md:blur-[120px]"
+          ></div>
+          <div
+            class="absolute bottom-0 right-1/4 w-48 h-48 md:w-80 md:h-80 bg-indigo-300 rounded-full blur-[80px] md:blur-[120px]"
+          ></div>
+        </div>
+      </section>
+
+      <section
+        id="Deskripsi"
+        class="py-16 md:py-24 bg-white border-y border-slate-100"
+      >
+        <div class="max-w-4xl mx-auto px-6">
+          <div class="text-center">
+            <h2
+              class="text-2xl md:text-4xl font-bold text-slate-900 mb-6 md:mb-8 fade-in"
+            >
+              Apa Itu HPPyCalc?
+            </h2>
+            <p
+              class="text-base md:text-xl text-slate-600 leading-relaxed slide-up"
+            >
+              <span class="text-blue-600 font-semibold text-lg md:text-2xl"
+                >HPPyCalc</span
+              >
+              adalah platform berbasis web yang memudahkan Anda menghitung
+              <strong>Harga Pokok Penjualan</strong> secara otomatis. Memberikan
+              hasil sistematis yang memenuhi standar akuntansi bagi pelajar dan
+              pemilik bisnis.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-16 md:py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <div
+              class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 hover:border-blue-300 transition-all group"
+            >
+              <div
+                class="w-12 h-12 bg-blue-50 rounded-2xl mb-6 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-lg md:text-xl font-bold mb-3">
+                Akurasi & Kecepatan
+              </h3>
+              <p class="text-slate-500 text-sm leading-relaxed">
+                Perhitungan HPP cepat dan tepat sesuai standar akuntansi tanpa
+                perlu rumus manual yang membingungkan.
+              </p>
+            </div>
+            <div
+              class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 hover:border-blue-300 transition-all group"
+            >
+              <div
+                class="w-12 h-12 bg-blue-50 rounded-2xl mb-6 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-lg md:text-xl font-bold mb-3">Mudah Digunakan</h3>
+              <p class="text-slate-500 text-sm leading-relaxed">
+                Tampilan minimalis dengan alur kerja yang intuitif, dirancang
+                untuk efisiensi waktu pengguna.
+              </p>
+            </div>
+            <div
+              class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 hover:border-blue-300 transition-all group"
+            >
+              <div
+                class="w-12 h-12 bg-blue-50 rounded-2xl mb-6 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-lg md:text-xl font-bold mb-3">Berbasis Web</h3>
+              <p class="text-slate-500 text-sm leading-relaxed">
+                Akses kapan saja tanpa perlu instalasi. Fleksibel untuk PC,
+                Tablet, maupun Smartphone Anda.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 pt-16 pb-8">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <p
+          class="text-slate-400 text-[10px] md:text-xs font-medium uppercase tracking-widest mb-4"
+        >
+          Project Cashup Global
+        </p>
+        <div
+          class="flex justify-center gap-6 mb-8 text-slate-500 font-medium text-sm"
+        >
+          <a href="#" class="hover:text-blue-600 transition">Bantuan</a>
+          <a href="#" class="hover:text-blue-600 transition">Kebijakan</a>
+          <a href="#" class="hover:text-blue-600 transition">Kontak</a>
+        </div>
+        <p class="text-slate-400 text-xs">
+          &copy; <span id="current-year"></span> <strong>HPPyCalc</strong>.
+          Seluruh Hak Cipta Dilindungi.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Update Tahun Otomatis
+      document.getElementById("current-year").textContent =
+        new Date().getFullYear();
+
+      // Mobile Menu Logic
+      const menuBtn = document.getElementById("menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      menuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("active");
+      });
+
+      // Tutup menu saat link diklik (opsional)
+      mobileMenu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileMenu.classList.remove("active");
+        });
+      });
+    </script>
+  </body>
+</html>
