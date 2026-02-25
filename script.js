@@ -80,21 +80,10 @@ btnKembali.addEventListener("click", function () {
 });
 
 // --- SHOW/HIDE PASSWORD ---
-const toggleBtn = document.getElementById("togglePassword");
-const passwordInput = document.getElementById("password");
-const eyeOpen = document.getElementById("eyeOpen");
-const eyeClosed = document.getElementById("eyeClosed");
-
-toggleBtn.addEventListener("click", function (e) {
-  e.preventDefault();
-  const isPassword = passwordInput.type === "password";
-  passwordInput.type = isPassword ? "text" : "password";
-  eyeOpen.style.opacity = isPassword ? "0" : "1";
-  eyeClosed.style.opacity = isPassword ? "1" : "0";
-});
-
-function handleLogin(event) {
-  event.preventDefault();
-  alert("Sistem sedang memproses...");
-  return false;
+function togglePassword() {
+  const passwordInput = document.getElementById("password");
+  const type =
+    passwordInput.getAttribute("type") === "password" ? "text" : "password";
+  passwordInput.setAttribute("type", type);
 }
+
