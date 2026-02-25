@@ -6,7 +6,7 @@ const users = [
   {
     username: "smaduwangi",
     password: "smadupass",
-    redirectTo: "https://cashupsemaduwangi.github.io/HppyClac/",
+    redirectTo: "https://cashupsemaduwangi.github.io/HppyCalc/",
   },
   // Tambahkan user lain di sini
 ];
@@ -86,4 +86,5 @@ function togglePassword() {
     passwordInput.getAttribute("type") === "password" ? "text" : "password";
   passwordInput.setAttribute("type", type);
 }
+
 
